@@ -1,5 +1,5 @@
 ---
-title: 'pyfli: A Unified Python Platform for Fluorescence Lifetime Imaging Data Processing'
+title: 'pyfli: A Unified Python Platform for Fluorescence Lifetime Imaging Data Simulation, Processing and Visualization'
 tags:
   - Python
   - fluorescence lifetime imaging
@@ -14,14 +14,12 @@ tags:
   - biomedical optics
 authors:
   - name: Vikas Pandey
-    orcid: 0000-0000-0000-0000
     corresponding: true
     email: pandev2@rpi.edu
     affiliation: 1
 affiliations:
   - name: Center for Modeling, Simulation and Imaging in Medicine, Rensselaer Polytechnic Institute, USA
     index: 1
-date: 18 May 2026
 bibliography: paper.bib
 ---
 
