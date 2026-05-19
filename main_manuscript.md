@@ -223,7 +223,10 @@ behaviour claims, or citations; references were verified by the author.
 
 # Acknowledgements
 
-*[Funding sources, lab affiliations, and individual acknowledgements to be
-added.]*
+I acknowledge Dr. Xavier Michalet for his extensive mathematical implementation of phasor, it was very helpful in drafting the extensive functionality 
+of phasor.
+I thank Prof. Xavier Intes and Stefan Radev for their constant feedback, help and during the development of this package.
+I thank Prof. Margarida Barroso, Sherry Catherine, Naxue Yuan, Luis Chavez for providing the biological samples and FLI data from different imaging set up.
+I thanks Ismail Erbas for the extensive implementation of various detectors, data acquisition and analysis feedback.
 
 # References
