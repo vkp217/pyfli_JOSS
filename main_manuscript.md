@@ -25,32 +25,10 @@ date: 18 May 2026
 bibliography: paper.bib
 ---
 
-# Summary
+# Abstract
 
-Fluorescence Lifetime Imaging (FLI) measures the nanosecond-scale decay of
-fluorescent emission and provides a quantitative, intensity-independent
-contrast for biological imaging — from intracellular metabolic state to
-*in vivo* tumour characterisation. In practice, FLI data are acquired with
-three very different detector families: gated cameras, single-photon
-avalanche diode (SPAD) arrays, and time-correlated single-photon counting
-(TCSPC) microscopes. Each platform produces data in its own format with its
-own noise statistics, and vendor analysis tools rarely interoperate. This
-fragmentation forces every laboratory to maintain its own pipeline and makes
-cross-platform reproducibility difficult.
+Fluorescence Lifetime Imaging (FLI) is a powerful quantitative imaging modality used across chemistry, biophysics, biomedical optics, and microscopy. It measures the nanosecond-scale decay of fluorescence emission and provides a quantitative, intensity-independent contrast for biological imaging useful from intracellular metabolic state to *in vivo* tumor characterisation. Despites its widespread use, the data acquisition and the analysis ecosystem remains fragmented: each detector family, Intensified Charge-Coupled Devices (ICCD), Single-Photon Avalanche Diode (SPAD) arrays, and Time-Correlated Single Photon Counting (TCSPC) microscopes, typically ships with its own proprietary file formats, vendor-specific software, and incompatible analytical conventions. This forces practitioners to maintain bespoke pipelines and limits reproducibility across hardware. I present **pyfli**, an open-source Python library that unifies FLI data ingestion, simulation, and lifetime estimation across detectors. The package implements five established analytical estimators, Non-linear Least Squares Fitting (NLSF), phasor analysis, Maximum Likelihood Estimation (MLE), Rapid Lifetime Determination (RLD), and Laguerre Expansion Technique (LET) for model-free Instrument Response Function (IRF) deconvolution, alongside CPU and GPU solvers, a configurable hardware-aware noise simulator. On top of that, this package extends to a single-pixel compressed-sensing reconstruction module for hyperspectral FLI as well. The library is distributed on PyPI as `pyfli-lib`, follows a modular registry-based architecture, and is intended to lower the activation energy for both routine FLI analysis and the development of new estimators.
 
-`pyfli` is an open-source Python library that brings ingestion, simulation,
-and lifetime estimation for FLI under a single hardware-agnostic interface.
-It implements five established lifetime estimators, matched CPU and GPU
-solver backends, a physics-aware noise simulator, and a compressed-sensing
-reconstruction module for hyperspectral single-pixel FLI. The package is
-distributed on PyPI as `pyfli-lib` and imported as `pyfli`.
-
-![High-level architecture of `pyfli`. Raw vendor data are ingested through a
-single `DataOperations` registry, preprocessed (IRF alignment, background and
-hot-pixel correction), and dispatched to either analytical estimators or
-CPU/GPU solver backends. A parallel simulator path produces calibrated
-synthetic data for training and validation of deep-learning
-models.\label{fig:architecture}](figures/architecture.png){width="90%"}
 
 # Statement of need
 
