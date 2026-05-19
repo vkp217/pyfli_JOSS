@@ -186,7 +186,9 @@ The package includes a pytest test suite covering parameter validation, distribu
 
 Three areas are targeted for future development. First, formal deep-learning model integration: the package currently provides the data substrate and the `DLModelComparator` interface, but pre-trained models for ICCD, SPAD, and TCSPC will be packaged and benchmarked against the analytical baselines in a forthcoming release. Second, expansion of the supported vendor formats to include Becker & Hickl `.spc` raw photon streams and PicoQuant `.ptu` files, both of which are common in TCSPC microscopy. Third, an explicit FAIR-data export path (HDF5 with provenance metadata) so that downstream tools and reviewers can recover the exact processing pipeline applied to any cube.
 
-**Limitations.** The current release does not provide a graphical user interface; users are expected to be comfortable with Python scripting. The license (CC BY-NC-ND 4.0) restricts commercial use and derivative redistribution, which is intentional for a community edition but should be considered by potential industrial adopters. Finally, the GPU path requires CUDA-capable hardware for full benefit, although the CPU path remains functionally equivalent.
+The current release provides user a full felxibility in pyfli implementation. Mature python script writer can use it directly in their framework and non-programming background users can use this in an upcoming webapp.
+
+**Limitations.** The license (CC BY-NC-ND 4.0) restricts commercial use and derivative redistribution, which is intentional for a community edition but should be considered by potential industrial adopters. Finally, the GPU path requires CUDA-capable hardware for full benefit, although the CPU path remains functionally equivalent.
 
 ---
 
