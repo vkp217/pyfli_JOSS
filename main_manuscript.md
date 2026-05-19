@@ -125,6 +125,71 @@ validation, distribution sampling, noise model statistics, phasor coordinate
 computation, and the Laguerre fitter. Tests use only synthetic NumPy arrays
 and require no external data.
 
+## Example Usage
+
+A typical end-to-end workflow loads experimental data and the matched IRF, performs IRF alignment, and runs a multi-exponential fit:
+
+```python
+from pyfli import DataOperations, IRFAligner, FLIFitter, Fli_GPUProcessor
+
+# 1. Unified data ingestion across vendor formats
+loader = DataOperations(
+    data_path="experiment.sdt",
+    irf_path="irf.txt",
+    bg_path="background.tif",
+    mask_path="mask.png",
+)
+decay = loader.load_data(sub_bg=True, hot_pixel=True)
+irf   = loader.load_irf()
+
+# 2. Align IRF and define bi-exponential bounds
+irf_aligned = IRFAligner(decay, irf).align()
+bounds = [(0, np.inf),         # A1
+          (0.1, 0.6),          # tau1 (ns)
+          (0, np.inf),          # A2
+          (0.6, 1.5),          # tau2 (ns)
+          (0, np.inf)]         # offset
+
+# 3. Fit on GPU
+fitter   = FLIFitter(model="bi-exponential", p0=bounds, irf=irf_aligned)
+processor = Fli_GPUProcessor(freq=(80, 40), fitter_class=fitter)
+result    = processor.run(decay)
+```
+
+A complementary workflow uses phasor analysis for model-free quality control:
+
+```python
+from pyfli import PhasorAnalyzer
+phasor = PhasorAnalyzer(decay, freq=80, irf=irf_aligned)
+phasor.compute()
+phasor.plot_universal_circle()
+```
+
+For supervised method development, the simulator generates calibrated synthetic data:
+
+```python
+from pyfli import FLIImageGenerator, Batch_sim
+gen = FLIImageGenerator(irf=irf, detector="SPAD",
+                        tau_range=(0.3, 3.0), photon_count=(1e2, 1e4))
+synthetic_cube, ground_truth = gen.generate(n_images=1000)
+```
+
+---
+
+## Quality Control
+
+The package includes a pytest test suite covering parameter validation, distribution sampling, noise model statistics, phasor coordinate computation, and the Laguerre fitter. Tests are executed with `pytest -v --tb=short` and run on synthetic arrays so they are self-contained. Continuous testing across Python 3.11 and 3.12, the two officially supported interpreter versions, ensures backward compatibility within the supported window. Additional validation is performed empirically by comparing simulator outputs against experimentally calibrated noise statistics through the `FLIValidator` class, and by cross-checking lifetime estimates between analytical methods on the same dataset.
+
+---
+
+## Discussion and Future Work
+
+Three areas are targeted for future development. First, formal deep-learning model integration: the package currently provides the data substrate and the `DLModelComparator` interface, but pre-trained models for ICCD, SPAD, and TCSPC will be packaged and benchmarked against the analytical baselines in a forthcoming release. Second, expansion of the supported vendor formats to include Becker & Hickl `.spc` raw photon streams and PicoQuant `.ptu` files, both of which are common in TCSPC microscopy. Third, an explicit FAIR-data export path (HDF5 with provenance metadata) so that downstream tools and reviewers can recover the exact processing pipeline applied to any cube.
+
+**Limitations.** The current release does not provide a graphical user interface; users are expected to be comfortable with Python scripting. The license (CC BY-NC-ND 4.0) restricts commercial use and derivative redistribution, which is intentional for a community edition but should be considered by potential industrial adopters. Finally, the GPU path requires CUDA-capable hardware for full benefit, although the CPU path remains functionally equivalent.
+
+---
+
 # Research impact statement
 
 `pyfli` consolidates analytical methods and hardware support that previously
